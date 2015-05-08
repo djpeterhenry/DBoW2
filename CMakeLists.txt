@@ -1,6 +1,20 @@
 cmake_minimum_required(VERSION 2.8)
 project(DBoW2)
 
+# Peter for windows
+# boost
+if (MSVC)
+set(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_STATIC_RUNTIME OFF) # new idea for prebuilt version from boost.org?
+#find_package (Boost COMPONENTS thread system filesystem program_options serialization REQUIRED)
+find_package (Boost REQUIRED)
+IF (Boost_FOUND)
+	include_directories(${Boost_INCLUDE_DIR})
+	link_directories(${Boost_LIBRARY_DIRS})
+	add_definitions( "-DHAS_BOOST" ) # sure...
+ENDIF()
+endif()
+
 option(BUILD_DBoW2   "Build DBoW2"            ON)
 option(BUILD_Demo    "Build demo application" ON)
 
@@ -18,7 +32,13 @@ find_package(DLib REQUIRED)
 
 if(BUILD_DBoW2)
   include_directories(include/DBoW2/ ${OpenCV_INCLUDE_DIRS} ${DLib_INCLUDE_DIRS})
-  add_library(${PROJECT_NAME} SHARED ${SRCS})
+  # Peter for windows
+if (MSVC)
+add_library(${PROJECT_NAME} ${SRCS})
+set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
+else()
+add_library(${PROJECT_NAME} SHARED ${SRCS})
+endif()
   target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS} ${DLib_LIBS})
 endif(BUILD_DBoW2)
 

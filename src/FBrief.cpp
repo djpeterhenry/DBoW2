@@ -11,7 +11,7 @@
 #include <string>
 #include <sstream>
 
-#include <DVision/DVision.h>
+#include <DVision.h>
 #include "FBrief.h"
 
 using namespace std;

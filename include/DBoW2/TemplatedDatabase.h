@@ -23,7 +23,7 @@
 #include "BowVector.h"
 #include "FeatureVector.h"
 
-#include <DUtils/DUtils.h>
+#include <DUtils.h>
 
 using namespace std;
 
